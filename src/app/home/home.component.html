@@ -1,0 +1,215 @@
+ <!-- Hero Section -->
+ <div class="relative min-h-screen">
+    <div 
+      class="absolute inset-0 bg-cover bg-center z-0"
+      [style.backgroundImage]="'url(https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80)'"
+    >
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+
+    <div class="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          Early Detection, Better Outcomes – AI-Powered Bone Cancer Diagnosis
+        </h1>
+        
+        <p class="text-xl sm:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
+          Revolutionizing bone cancer detection with AI-driven accuracy. Upload X-rays, get instant analysis, and take control of your health.
+        </p>
+        
+        <div class="space-x-4">
+          <a routerLink="/about" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-105 inline-block">
+            Learn More
+          </a>
+
+          
+
+
+          <a routerLink="/diagnosis" class="bg-white hover:bg-gray-100 text-blue-600 font-semibold py-3 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-105 inline-block">
+            Upload X-ray & Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <section class="bg-gray-900 py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">How It Works</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="step-card">
+          <div class="text-blue-400 text-4xl font-bold mb-4">01</div>
+          <h3 class="text-xl font-semibold text-white mb-2">Upload X-ray</h3>
+          <p class="text-gray-300">Simply upload your X-ray image in any common format</p>
+        </div>
+        <div class="step-card">
+          <div class="text-blue-400 text-4xl font-bold mb-4">02</div>
+          <h3 class="text-xl font-semibold text-white mb-2">AI Analysis</h3>
+          <p class="text-gray-300">Our AI processes the image using advanced algorithms</p>
+        </div>
+        <div class="step-card">
+          <div class="text-blue-400 text-4xl font-bold mb-4">03</div>
+          <h3 class="text-xl font-semibold text-white mb-2">Get Results</h3>
+          <p class="text-gray-300">Receive detailed analysis within minutes</p>
+        </div>
+        <div class="step-card">
+          <div class="text-blue-400 text-4xl font-bold mb-4">04</div>
+          <h3 class="text-xl font-semibold text-white mb-2">Expert Review</h3>
+          <p class="text-gray-300">Share results with your healthcare provider</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features Section -->
+  <section class="bg-gray-800 py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Key Features</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-gray-900/50 rounded-xl p-6">
+          <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">High Accuracy</h3>
+          <p class="text-gray-300">95% accuracy rate in detecting bone abnormalities</p>
+        </div>
+        <div class="bg-gray-900/50 rounded-xl p-6">
+          <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">Instant Results</h3>
+          <p class="text-gray-300">Get comprehensive analysis within minutes</p>
+        </div>
+        <div class="bg-gray-900/50 rounded-xl p-6">
+          <div class="w-12 h-12 bg-blue-400/20 rounded-lg flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white mb-2">Secure & Private</h3>
+          <p class="text-gray-300">HIPAA-compliant with end-to-end encryption</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="bg-gray-900 py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Why Choose Us?</h2>
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-white mb-4">For Patients</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">Early detection increases treatment success rates</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">Quick results reduce anxiety and waiting time</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">Affordable and accessible healthcare solution</span>
+            </li>
+          </ul>
+        </div>
+        <div class="space-y-6">
+          <h3 class="text-2xl font-semibold text-white mb-4">For Doctors</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">AI-assisted diagnosis for better accuracy</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">Streamlined workflow and faster patient care</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-6 w-6 text-blue-400 mt-1 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-gray-300">Comprehensive reports with detailed insights</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials & FAQs Section -->
+  <section class="bg-gray-800 py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Testimonials -->
+        <div>
+          <h2 class="text-3xl font-bold text-white mb-8">What Doctors Say</h2>
+          <div class="space-y-6">
+            <div class="bg-gray-900/50 rounded-xl p-6">
+              <p class="text-gray-300 mb-4">"This AI system has significantly improved our diagnostic accuracy and reduced the time needed for analysis."</p>
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-400/20 rounded-full flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-white font-semibold">Dr. Emily Johnson</div>
+                  <div class="text-gray-400">Oncologist, Mayo Clinic</div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-900/50 rounded-xl p-6">
+              <p class="text-gray-300 mb-4">"A game-changer in early bone cancer detection. The accuracy and speed are remarkable."</p>
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-blue-400/20 rounded-full flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-white font-semibold">Dr. James Wilson</div>
+                  <div class="text-gray-400">Radiologist, Johns Hopkins</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQs -->
+        <div>
+          <h2 class="text-3xl font-bold text-white mb-8">Common Questions</h2>
+          <div class="space-y-4">
+            <div class="bg-gray-900/50 rounded-xl p-6">
+              <h3 class="text-white font-semibold mb-2">How accurate is the AI system?</h3>
+              <p class="text-gray-300">Our AI system achieves 95% accuracy in detecting bone abnormalities, validated through extensive clinical trials.</p>
+            </div>
+            <div class="bg-gray-900/50 rounded-xl p-6">
+              <h3 class="text-white font-semibold mb-2">How long does the analysis take?</h3>
+              <p class="text-gray-300">Most analyses are completed within 15 minutes, with results immediately available to healthcare providers.</p>
+            </div>
+            <div class="bg-gray-900/50 rounded-xl p-6">
+              <h3 class="text-white font-semibold mb-2">Is my data secure?</h3>
+              <p class="text-gray-300">Yes, we use end-to-end encryption and are fully HIPAA-compliant to ensure your data remains private and secure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

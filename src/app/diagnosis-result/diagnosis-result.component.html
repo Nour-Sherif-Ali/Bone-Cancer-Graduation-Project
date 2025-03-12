@@ -1,0 +1,22 @@
+<div class="container">
+    <h2>Upload Your Scan for Analysis</h2>
+  
+    <!-- File Upload -->
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+    
+    <!-- Preview Uploaded Image -->
+    <div *ngIf="imageUrl" class="preview">
+      <h3>Uploaded Scan:</h3>
+      <img [src]="imageUrl" alt="Uploaded Scan" />
+    </div>
+  
+    <!-- Analyze Button -->
+    <button (click)="analyzeScan()" [disabled]="!selectedFile">Analyze</button>
+  
+    <!-- Display Result -->
+    <div *ngIf="analysisResult">
+      <h3>Analysis Result:</h3>
+      <p>{{ analysisResult }}</p>
+    </div>
+  </div>
+  

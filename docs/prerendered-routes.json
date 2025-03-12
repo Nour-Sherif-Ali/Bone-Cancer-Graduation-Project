@@ -1,0 +1,14 @@
+{
+  "routes": {
+    "/bone-Cancer-Graduation-web-app1": {},
+    "/bone-Cancer-Graduation-web-app1/about": {},
+    "/bone-Cancer-Graduation-web-app1/diagnosis": {},
+    "/bone-Cancer-Graduation-web-app1/diagnosisResult": {},
+    "/bone-Cancer-Graduation-web-app1/home": {},
+    "/bone-Cancer-Graduation-web-app1/login": {},
+    "/bone-Cancer-Graduation-web-app1/news": {},
+    "/bone-Cancer-Graduation-web-app1/profile": {},
+    "/bone-Cancer-Graduation-web-app1/register": {},
+    "/bone-Cancer-Graduation-web-app1/treatment": {}
+  }
+}
