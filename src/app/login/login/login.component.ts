@@ -4,6 +4,8 @@ import { AuthonService } from './../../services/authon.service';
 import { jwtDecode } from 'jwt-decode';  // matensash te3melha download men el cli npm i jwt-decode
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { auth } from '../../firebase'; // أو حسب المسار المناسب
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',

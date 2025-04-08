@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthonService } from './../../services/authon.service';
 import { Router, RouterLink } from '@angular/router';
+import { auth } from './../../firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 @Component({
   selector: 'app-register',
