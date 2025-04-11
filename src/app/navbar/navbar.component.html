@@ -16,6 +16,9 @@
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosis" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Diagnosis</a>
             </li>
             <li *ngIf="isLoggedIn">
+                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosisResult" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Result</a>
+            </li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/profile" [routerLinkActive]="['bg-main', 'p-3', 'active']">Profile</a>
             </li>
         </ul>
