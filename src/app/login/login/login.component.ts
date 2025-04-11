@@ -4,8 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './../../firebase';
+import { auth , db } from './../../firebase';
 
+
+import { doc, getDoc } from 'firebase/firestore';
+import { UserService } from './../../user.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -22,28 +25,46 @@ export class LoginComponent {
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [
       Validators.required,
-      Validators.pattern(/^[A-Z].{6,15}$/)
+      Validators.minLength(6),
     ]),
   });
 
-  constructor(private router: Router) {}
 
-  login() {
-    const email = this.signUpform.value.email;
-    const password = this.signUpform.value.password;
+  email = '';
+  password = '';
+  constructor(private router: Router , private userService: UserService ) {}
+  
 
-    if (!email || !password) return;
-
-    this.isLoading = true;
-    signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        this.isLoading = false;
-        this.router.navigate(['/home']);
-      })
-      .catch(error => {
-        this.isLoading = false;
-        this.isErrorMsg = true;
-        this.errorMessage = error.message;
-      });
+  async login() {
+    // طباعة القيم المدخلة في النموذج للتأكد
+    console.log(this.signUpform.value);  // هنا هيتم طباعة البيانات المدخلة
+  
+    // التحقق من صحة النموذج
+    if (this.signUpform.invalid) {
+      this.errorMessage = 'يرجى إدخال جميع البيانات بشكل صحيح.';
+      this.isErrorMsg = true;
+      return;
+    }
+  
+    const { email, password } = this.signUpform.value;
+  
+    // التأكد من أن الـ email و الـ password مش فارغين
+    if (!email || !password) {
+      this.errorMessage = 'يرجى إدخال الإيميل وكلمة السر';
+      this.isErrorMsg = true;
+      return;
+    }
+  
+    try {
+      // محاولة تسجيل الدخول
+      await signInWithEmailAndPassword(auth, email, password);
+      this.router.navigate(['/home']); // بعد النجاح، الانتقال لصفحة الـ Home
+    } catch (error) {
+      console.error('Error during login:', error);  // طباعة الأخطاء في الـ console
+      this.errorMessage = 'فشل تسجيل الدخول. تحقق من البيانات.';
+      this.isErrorMsg = true;
+    }
   }
+  
+
 }

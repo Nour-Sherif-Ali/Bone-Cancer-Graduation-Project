@@ -1,10 +1,10 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from './../../firebase';
+import { auth, db } from './../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-register',
@@ -19,41 +19,49 @@ export class RegisterComponent {
   errorMessage: string = '';
 
   registerForm = new FormGroup({
-    name: new FormControl(null, [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(15),
-      Validators.pattern(/^[A-Za-z\s]+$/)
-    ]),
+    name: new FormControl(null, [Validators.required]),
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [
       Validators.required,
       Validators.pattern(/^[A-Z].{6,15}$/)
     ]),
+    birthdate: new FormControl(null, [Validators.required]),
+    gender: new FormControl(null, [Validators.required]),
+    mobile: new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/^01[0-9]{9}$/)
+    ])
   });
 
   constructor(private router: Router) {}
 
-  register() {
-    const name = this.registerForm.value.name;
-    const email = this.registerForm.value.email;
-    const password = this.registerForm.value.password;
+  async register() {
+    const { name, email, password, birthdate, gender, mobile } = this.registerForm.value;
 
-    if (!name || !email || !password) return;
+    if (!name || !email || !password || !birthdate || !gender || !mobile) return;
 
     this.isLoading = true;
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        return updateProfile(userCredential.user, { displayName: name });
-      })
-      .then(() => {
-        this.isLoading = false;
-        this.router.navigate(['/login']);
-      })
-      .catch(error => {
-        this.isLoading = false;
-        this.isErrorMsg = true;
-        this.errorMessage = error.message;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
+
+      const uid = userCredential.user.uid;
+      await setDoc(doc(db, 'users', uid), {
+        name,
+        email,
+        uid,
+        birthdate,
+        gender,
+        mobile,
+        createdAt: new Date()
       });
+
+      this.isLoading = false;
+      this.router.navigate(['/login']);
+    } catch (error: any) {
+      this.isLoading = false;
+      this.isErrorMsg = true;
+      this.errorMessage = error.message;
+    }
   }
 }

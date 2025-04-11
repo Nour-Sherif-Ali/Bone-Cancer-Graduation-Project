@@ -1,25 +1,25 @@
   <nav class="w-full bg-gray-600 shadow-md p-4">
     <div class="container mx-auto flex justify-between items-center">
         <h1 class="text-xl font-bold text-blue-600">Bone Cancer Diagnostic system</h1>
-        @if (enableNavBar == true) {
+      
         <ul class="flex space-x-6 mr-4 ml-4">
-            <li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/home" [routerLinkActive]="['bg-main', 'p-3', 'active']">home</a>
             </li>
-            <li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/about" [routerLinkActive]="['bg-main', 'p-3', 'active']">about</a>
             </li>
-            <li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/news" [routerLinkActive]="['bg-main', 'p-3', 'active']">Health Care</a>
             </li> 
-            <li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosis" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Diagnosis</a>
             </li>
-            <li>
+            <li *ngIf="isLoggedIn">
                 <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/profile" [routerLinkActive]="['bg-main', 'p-3', 'active']">Profile</a>
             </li>
         </ul>
-      }
+      
 
         <ul class="capitalize ms-auto font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-600 md:dark:bg-gray-600 dark:border-gray-700">
           @if(enableNavBar ==false){
@@ -30,59 +30,26 @@
                 <a class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/login" [routerLinkActive]="['bg-main', 'p-3']">login</a>
             </li>
           }
-            <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page"><i class="fa-brands fa-facebook"></i></a>
-            </li>
-            <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page"><i class="fa-brands fa-twitter"></i></a>
-            </li>
-            <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page"><i class="fa-brands fa-instagram"></i></a>
-            </li>
-            <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page"><i class="fa-brands fa-youtube"></i></a>
-            </li>
-            @if (enableNavBar ) {
+           
+
+            <li (click)="logout()" class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main', 'p-3']">logout</li>
+            <li  class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3']">DashBoard</li>
+            <li class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/settings" [routerLinkActive]="['bg-main', 'p-3']">settings</li>
+            <span *ngIf="userData">hello , {{userData.name}}</span>
+            
+            @if (enableNavBar ==  true) {
               <li> 
-                <a href=""><i class="fa-solid fa-user"></i></a>  
-                  {{loggedUserName}}
+                <a><i class="fa-solid fa-user"></i></a>  
+                  {{userName}}
                 </li>
               <li> 
-                <a (click)="logOut()" class="block py-2 px-3  rounded-sm " aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main','p-3']" >logout</a>
+                <a (click)="logout()" class="block py-2 px-3  rounded-sm " aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main','p-3']" >logout</a>
               </li>
               
             }
         </ul>
 
-        <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="doctors.webp" alt="User dropdown">
-
-        <!-- Dropdown menu -->
-         
-        <div id="userDropdown" class="z-10 hidden bg-indigo-400 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
-            @if (enableNavBar) {
-            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                <div>{{loggedUserName}}</div>
-                <div class="font-medium truncate">noursherif619&#64;gmail.com</div>
-            </div>
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-                <li>
-                    <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                </li>
-                <li>
-                    <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" routerLink="/profile">Profile</a>
-                </li>
-                <li>
-                    <a  routerLink="/treatment" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Treatment Suggestion</a>
-                </li>
-                <li>
-                    <a class="block py-2 px-3  rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" aria-current="page" routerLink="/diagnosis" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Diagnosis</a>
-                </li>
-            </ul>
-            <div class="py-1">
-                <a (click)="logOut()" class="block py-2 px-3 rounded-sm bg-indigo-600 text-white" aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main', 'p-3']">logout</a>
-            </div>
-        }
-        </div>
+       
     
     </div>
 </nav>

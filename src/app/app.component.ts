@@ -7,6 +7,7 @@ import { NewsFeedComponent } from './news-feed/news-feed.component';
 import { HomeComponent } from "./home/home.component";
 import { TestComponent } from "./test/test.component";
 import { DarkModeComponent } from "./dark-mode/dark-mode.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 
 @Component({

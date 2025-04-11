@@ -35,7 +35,7 @@ export class AuthonService {
       
         }
   
-  setUserName(){
+  setUserName1(){
         let token : any = localStorage.getItem('token');
         let decodedToken:any = jwtDecode(token);
         this.userName.next(decodedToken.name);
@@ -95,4 +95,3 @@ export class AuthonService {
     console.log(data)
    }
   }
-  
