@@ -1,43 +1,85 @@
 
+<body class="w-full h-64 bg-gradient-to-r from-[#8892f0] to-[#aeb5f7]  text-gray-900 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-[1200px] bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+    <!-- Left Section -->
+    <div class="w-full md:w-1/2 p-6 md:p-12">
+      <div class="max-w-md mx-auto">
+        <h1 class="text-black text-xl md:text-4xl font-semibold mb-2">Create an account</h1>
+        <p class="text-gray-400 mb-4 md:mb-8">
+          Already have an account?
+          <a href="" class="text-black hover:underline">Log in</a>
+        </p>
+      </div>
+      <div class="flex justify-between mb-6 border-b border-gray-200">
+        <button id="signInTab" class="w-1/2 text-center text-gray-600 pb-2 font-medium border-b-2 border-transparent hover:border-indigo-500 focus:outline-none transition">Patient</button>
+        <button id="signUpTab" class="w-1/2 text-center text-gray-600 pb-2 font-medium border-b-2 border-transparent hover:border-indigo-500 focus:outline-none transition">Doctor</button>
+    </div>
 
 
- <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-4">
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()"  class="space-y-4">
+        <div class="flex flex-col gap-4"></div>
+          <input type="text"  placeholder="Name"    formControlName="name"    class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600"> 
+          <input type="email" placeholder="Email"   formControlName="email"   class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+       
+          <input type="password" placeholder="Enter your password" formControlName="password"   class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+          <input type="password" placeholder="Confirm password"    formControlName="repassword" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+          <input type="date"     placeholder="Enter your BirthDate"    formControlName="birthdate"  class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        
+        <h5 class="font-bold text-gray-900">Gender</h5>
+        <div class="flex flex-row gap-4 mb-4">
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input type="radio" name="gender" value="male"  formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+            <span class="font-semibold bold text-slate-950">Male</span>
+          </label>
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input type="radio" name="gender" value="female" formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+            <span class="font-semibold bold text-slate-950">Female</span>
+          </label>
+        </div>
 
-  <input type="text" placeholder="Full Name" formControlName="name" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <input type="tel" placeholder="Phone Number"      formControlName="mobile"          class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <input type="tel" placeholder="Relative Number"   formControlName="relativeNumber"  class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <input type="text" placeholder="Syndicate Number" formControlName="syndicateNumber" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
 
-  <input type="email" placeholder="Email" formControlName="email" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <label class="flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" class="rounded bg-[#44444442] border-gray-600 text-purple-600 focus:ring-purple-600">
+          <span class="text-gray-400">I agree to the <a href="#" class="text-black hover:underline">Terms & Conditions</a></span>
+        </label>
 
-  <input type="password" placeholder="Password" formControlName="password" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <button type="submit" class="w-full bg-[#5f6ffc] text-white rounded-3xl p-3  hover:bg-purple-600 transition-colors">
+          Create account
+        </button>
 
-  <input type="password" placeholder="Repeat Password" formControlName="repassword" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <div class="relative my-4 md:my-8">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-gray-500">Or log in with</span>
+          </div>
+        </div>
 
-  <input type="date" placeholder="Birthdate" formControlName="birthdate" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
 
-  <h5 class="font-bold text-gray-900">Gender</h5>
-  <div class="flex flex-row gap-4 mb-4">
-    <label class="flex items-center space-x-2 cursor-pointer">
-      <input type="radio" value="male" formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
-      <span class="font-semibold bold text-slate-950">Male</span>
-    </label>
-    <label class="flex items-center space-x-2 cursor-pointer">
-      <input type="radio" value="female" formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
-      <span class="font-semibold bold text-slate-950">Female</span>
-    </label>
+        <div class="flex justify-center items-center">
+          <button type="button" class="w-full md:w-1/2 flex items-center justify-center gap-2 bg-gray-100 rounded-lg p-3 hover:bg-gray-200 transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+            </svg>
+            Google
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- Right Section -->
+    <div class="w-full md:w-1/2 relative flex items-center justify-center p-6 bg-cover bg-center " style="background-image: url('https://t3.ftcdn.net/jpg/12/61/80/46/360_F_1261804607_aPzz5THfXZVvypEaq6GgJ39NTGeMlQu0.jpg')">
+      <div class="absolute inset-0 bg-[#6875e77a]"></div>
+      <div class="text-center relative z-10">
+       
+      </div>
+      
+    </div>
   </div>
+</body>
 
-  <input type="tel" placeholder="Mobile Number" formControlName="mobile" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
-
-  <label class="flex items-center space-x-2 cursor-pointer">
-    <input type="checkbox" (change)="onUserTypeToggle($event)" class="rounded bg-[#44444442] border-gray-600 text-purple-600 focus:ring-purple-600">
-    <span class="text-gray-400">Are you a doctor?</span>
-  </label>
-
-  <input *ngIf="isDoctor" type="text" placeholder="Syndicate Number" formControlName="syndicateNumber" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
-
-  <input *ngIf="!isDoctor" type="tel" placeholder="Relative's Number" formControlName="relativeNumber" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
-
-  <button type="submit" class="w-full bg-[#5f6ffc] text-white rounded-3xl p-3 hover:bg-purple-600 transition-colors">
-    Create account
-  </button>
-
-</form> 
