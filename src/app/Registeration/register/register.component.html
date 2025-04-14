@@ -24,33 +24,54 @@
 
 
 
-<div class="w-full h-64 bg-gradient-to-r from-[#8892f0] to-[#aeb5f7]  text-gray-900 min-h-screen flex items-center justify-center p-4">
+<body class="w-full h-64 bg-gradient-to-r from-[#8892f0] to-[#aeb5f7]  text-gray-900 min-h-screen flex items-center justify-center p-4">
   <div class="w-full max-w-[1200px] bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-    <!-- left Section -->
+    <!-- Left Section -->
     <div class="w-full md:w-1/2 p-6 md:p-12">
       <div class="max-w-md mx-auto">
-        <h1 class="text-2xl md:text-4xl font-semibold mb-2">Log in</h1>
-        <p class="text-gray-600 mb-4 md:mb-8">
-          Don't have an account?
-          <a routerLink="/register" class="text-indigo-600 hover:underline">Sign up</a>
+        <h1 class="text-black text-xl md:text-4xl font-semibold mb-2">Create an account</h1>
+        <p class="text-gray-400 mb-4 md:mb-8">
+          Already have an account?
+          <a href="" class="text-black hover:underline">Log in</a>
         </p>
       </div>
+      <div class="flex justify-between mb-6 border-b border-gray-200">
+        <button id="signInTab" class="w-1/2 text-center text-gray-600 pb-2 font-medium border-b-2 border-transparent hover:border-indigo-500 focus:outline-none transition">Patient</button>
+        <button id="signUpTab" class="w-1/2 text-center text-gray-600 pb-2 font-medium border-b-2 border-transparent hover:border-indigo-500 focus:outline-none transition">Doctor</button>
+    </div>
+
+
       <form class="space-y-4">
-        <div class="flex flex-col gap-4">
-          <input type="email" placeholder="Email" class="w-full bg-gray-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-600">
-          <input type="password" placeholder="Password" class="w-full bg-gray-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-600">
-        </div>
-
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4"></div>
+          <input type="text" placeholder="Name" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600"> 
+          <input type="email" placeholder="Email" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+       
+          <input type="password" placeholder="Enter your password" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+          <input type="password" placeholder="Confirm password" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+          <input type="date" placeholder="Enter your BirthDate" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        
+        <h5 class="font-bold text-gray-900">Gender</h5>
+        <div class="flex flex-row gap-4 mb-4">
           <label class="flex items-center space-x-2 cursor-pointer">
-            <input type="checkbox" class="rounded bg-gray-100 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-            <span class="text-gray-600">Remember me</span>
+            <input type="radio" name="gender" value="male" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+            <span class="font-semibold bold text-slate-950">Male</span>
           </label>
-          <a href="#" class="text-sm text-indigo-600 hover:underline">Forgot password?</a>
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input type="radio" name="gender" value="female" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+            <span class="font-semibold bold text-slate-950">Female</span>
+          </label>
         </div>
 
-        <button type="submit" class="w-full bg-[#6875E7] text-white rounded-3xl p-3 hover:bg-indigo-700 transition-colors">
-          Log in
+        <input type="tel" placeholder="Phone Number" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        <input type="tel" placeholder="Relative Number" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+        
+        <label class="flex items-center space-x-2 cursor-pointer">
+          <input type="checkbox" class="rounded bg-[#44444442] border-gray-600 text-purple-600 focus:ring-purple-600">
+          <span class="text-gray-400">I agree to the <a href="#" class="text-black hover:underline">Terms & Conditions</a></span>
+        </label>
+
+        <button type="submit" class="w-full bg-[#5f6ffc] text-white rounded-3xl p-3  hover:bg-purple-600 transition-colors">
+          Create account
         </button>
 
         <div class="relative my-4 md:my-8">
@@ -62,6 +83,7 @@
           </div>
         </div>
 
+
         <div class="flex justify-center items-center">
           <button type="button" class="w-full md:w-1/2 flex items-center justify-center gap-2 bg-gray-100 rounded-lg p-3 hover:bg-gray-200 transition-colors">
             <svg class="w-5 h-5" viewBox="0 0 24 24">
@@ -71,20 +93,23 @@
           </button>
         </div>
       </form>
+
     </div>
 
-    <!-- right Section -->
+    <!-- Right Section -->
     <div class="w-full md:w-1/2 relative flex items-center justify-center p-6 bg-cover bg-center " style="background-image: url('https://t3.ftcdn.net/jpg/12/61/80/46/360_F_1261804607_aPzz5THfXZVvypEaq6GgJ39NTGeMlQu0.jpg')">
       <div class="absolute inset-0 bg-[#6875e77a]"></div>
       <div class="text-center relative z-10">
        
       </div>
-      <a href="/" class="absolute top-6 right-6 bg-white/10 backdrop-blur-sm text-indigo-600 px-4 py-2 rounded-full text-sm hover:bg-white/20 transition-colors z-10">
+      <a href="/src/app/login/login/login.component.html" class="absolute top-6 right-6 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm hover:bg-white/20 transition-colors z-10">
         Back to website →
       </a>
     </div>
   </div>
-</div>
+</body>
+
+
 
 
 
