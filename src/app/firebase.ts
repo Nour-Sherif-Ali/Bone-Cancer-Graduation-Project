@@ -23,7 +23,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-export async function registerUserInFirebase(user: any, selectedFile: File | null, toastr: ToastrService) {
+export async function registerUserInFirebase(user: any, toastr: ToastrService) {
   
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
@@ -31,8 +31,7 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
 
      const isDoctor = !!user.syndicateNumber;
   
-   
-
+    
 
     await setDoc(doc(db, 'users', uid), {
       name: user.name,
@@ -44,6 +43,7 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
       syndicateNumber: isDoctor ? user.syndicateNumber : null,
       relativeNumber: isDoctor ? null : user.relativeNumber,
       createdAt: new Date(),
+      
     });
 
     try {

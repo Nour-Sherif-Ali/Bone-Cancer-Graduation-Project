@@ -30,14 +30,14 @@
                 <a class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/register" [routerLinkActive]="['bg-main', 'p-3']">register</a>
             </li>
             <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/login" [routerLinkActive]="['bg-main', 'p-3']">login</a>
+                <a class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/login" [routerLinkActive]="['bg-main', 'p-3']">login</a>
             </li>
           }
            
 
-            <li (click)="logout()" class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main', 'p-3']">logout</li>
-            <li  class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3']">DashBoard</li>
-            <li class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/settings" [routerLinkActive]="['bg-main', 'p-3']">settings</li>
+            <li (click)="logout()" class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main', 'p-3']">logout</li>
+            <li  class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3']">DashBoard</li>
+            <li class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/settings" [routerLinkActive]="['bg-main', 'p-3']">settings</li>
             <span *ngIf="userData">hello , {{userData.name}}</span>
             
             @if (enableNavBar ==  true) {
