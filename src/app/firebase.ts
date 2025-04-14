@@ -1,37 +1,59 @@
 import { initializeApp } from 'firebase/app';
-import { Component , inject } from '@angular/core';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc , updateDoc, setDoc } from 'firebase/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup
+} from 'firebase/auth';
+
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from 'firebase/firestore';
+
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes
+} from 'firebase/storage';
+
 import { ToastrService } from 'ngx-toastr';
 
+// ✅ Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCLETnp_eSrS3Ps9bj0VpF-s49_kQNQGds",
   authDomain: "bone-cancer-mti-2025.firebaseapp.com",
   projectId: "bone-cancer-mti-2025",
-  storageBucket: "bone-cancer-mti-2025.firebasestorage.app",
+  storageBucket: "bone-cancer-mti-2025.appspot.com",
   messagingSenderId: "618185250201",
   appId: "1:618185250201:web:2f2e666a225f7577312f08",
   measurementId: "G-1C32T2L75K"
 };
 
-
+// ✅ Init
 const app = initializeApp(firebaseConfig);
-
-
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+const provider = new GoogleAuthProvider();
+export { provider, signInWithPopup };
 
-export async function registerUserInFirebase(user: any, toastr: ToastrService) {
-  
+// ✅ Register with Email/Password
+export async function registerUserInFirebase(user: any, selectedFile: File | null, toastr: ToastrService) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
     const uid = userCredential.user.uid;
+    const isDoctor = !!user.syndicateNumber;
 
-     const isDoctor = !!user.syndicateNumber;
-  
-    
+    let photoURL = '';
+    if (selectedFile) {
+      const fileRef = ref(storage, `profileImages/${uid}/${selectedFile.name}`);
+      await uploadBytes(fileRef, selectedFile);
+      photoURL = await getDownloadURL(fileRef);
+    }
 
     await setDoc(doc(db, 'users', uid), {
       name: user.name,
@@ -42,24 +64,18 @@ export async function registerUserInFirebase(user: any, toastr: ToastrService) {
       Role: isDoctor ? 'Doctor' : 'Patient',
       syndicateNumber: isDoctor ? user.syndicateNumber : null,
       relativeNumber: isDoctor ? null : user.relativeNumber,
+      profileImage: photoURL || null,
       createdAt: new Date(),
-      
     });
 
-    try {
-      // ...
-      toastr.success('User Registered Successfully!');
-    } catch (error) {
-      toastr.error('Error: ' + (error as Error).message);
-    }
+    toastr.success('User Registered Successfully!');
   } catch (error) {
     toastr.error('Error: ' + (error as Error).message);
   }
 }
 
-
-// دالة لتسجيل دخول المستخدم (لمساعدتك لاحقًا في الـ login)
-export async function loginUser(email: string, password: string ,  toastr: ToastrService) {
+// ✅ Login with Email/Password
+export async function loginUser(email: string, password: string, toastr: ToastrService) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
@@ -69,6 +85,28 @@ export async function loginUser(email: string, password: string ,  toastr: Toast
     } else {
       toastr.error('An unknown error occurred.');
     }
-    return null; // Ensure a return value in all code paths
+    return null;
+  }
+}
+
+// ✅ Login/Register with Google
+export async function signUpWithGoogle(toastr: ToastrService, isDoctor: boolean, router: any) {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    await setDoc(doc(db, 'users', user.uid), {
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      Role: isDoctor ? 'Doctor' : 'Patient',
+      createdAt: new Date()
+    });
+
+    toastr.success('Signed up successfully with Google!');
+    router.navigate(['/home']); // ✅ Change route if needed
+  } catch (error) {
+    console.error('Google sign-up error:', error);
+    toastr.error('Google sign-in failed.');
   }
 }

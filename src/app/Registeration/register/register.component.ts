@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { registerUserInFirebase, signUpWithGoogle } from './../../firebase';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { registerUserInFirebase } from './../../firebase';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ import { registerUserInFirebase } from './../../firebase';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  userRole: 'Doctor' | 'Patient' = 'Patient';
+  isDoctor = false;
   selectedFile: File | null = null;
   _ToastrService = inject(ToastrService);
 
@@ -27,24 +27,23 @@ export class RegisterComponent {
       repassword: ['', Validators.required],
       gender: ['', Validators.required],
       birthdate: ['', Validators.required],
-      mobile: ['', [Validators.required, Validators.pattern(/^01[0-9]{9}$/)]],
+      mobile: ['', Validators.required],
       syndicateNumber: [''],
-      relativeNumber: [''],
+      relativeNumber: ['']
     });
   }
 
-  selectRole(role: 'Doctor' | 'Patient') {
-    this.userRole = role;
-    if (role === 'Doctor') {
-      this.registerForm.get('relativeNumber')?.reset();
+  onUserTypeToggle(event: any) {
+    this.isDoctor = event.target.checked;
+    if (this.isDoctor) {
+      this.registerForm.patchValue({ relativeNumber: null });
     } else {
-      this.registerForm.get('syndicateNumber')?.reset();
+      this.registerForm.patchValue({ syndicateNumber: null });
     }
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) this.selectedFile = file;
+    this.selectedFile = event.target.files[0];
   }
 
   async onRegister() {
@@ -60,14 +59,14 @@ export class RegisterComponent {
     }
 
     try {
-      await registerUserInFirebase({
-        ...this.registerForm.value,
-        role: this.userRole
-      },  this._ToastrService);
-
+      await registerUserInFirebase(this.registerForm.value, this.selectedFile, this._ToastrService);
       this.router.navigate(['/login']);
-    } catch (err) {
+    } catch (error) {
       this._ToastrService.error('Registration failed. Please try again.');
     }
+  }
+
+  async signUpWithGoogleHandler() {
+    await signUpWithGoogle(this._ToastrService, this.isDoctor, this.router);
   }
 }
