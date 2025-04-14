@@ -58,7 +58,7 @@ export class LoginComponent {
     try {
       // محاولة تسجيل الدخول
       await signInWithEmailAndPassword(auth, email, password);
-      this.router.navigate(['/home']); // بعد النجاح، الانتقال لصفحة الـ Home
+      this.router.navigate(['/dashboard']); // بعد النجاح، الانتقال لصفحة الـ Home
     } catch (error) {
       console.error('Error during login:', error);  // طباعة الأخطاء في الـ console
       this.errorMessage = 'فشل تسجيل الدخول. تحقق من البيانات.';

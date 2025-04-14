@@ -1,67 +1,63 @@
-import { Component } from '@angular/core';
+import { Component , inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, db } from './../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { registerUserInFirebase } from './../../firebase'; // نفترض عندك ملف firebase.ts
+import { Router } from '@angular/router'; // لو لسه ما ضفتهاش
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports : [ReactiveFormsModule, CommonModule ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  isLoading: boolean = false;
-  isErrorMsg: boolean = false;
-  errorMessage: string = '';
+  registerForm: FormGroup;
+  isDoctor = false;
+  selectedFile: File | null = null;
+  _ToastrService=inject(ToastrService);
 
-  registerForm = new FormGroup({
-    name: new FormControl(null, [Validators.required]),
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^[A-Z].{6,15}$/)
-    ]),
-    birthdate: new FormControl(null, [Validators.required]),
-    gender: new FormControl(null, [Validators.required]),
-    mobile: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^01[0-9]{9}$/)
-    ])
-  });
+  constructor(private fb: FormBuilder, private router: Router) {
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      repassword: ['', Validators.required],
+      gender: ['', Validators.required],
+      birthdate: ['', Validators.required],
+      mobile: ['', Validators.required],
+      syndicateNumber: [''], // For doctor
+      relativeNumber: [''] // For relative
+    });
+  }
 
-  constructor(private router: Router) {}
+  // تحديث حالة الدكتورة وتعيين relativeNumber لـ null إذا كان دكتور
+  onUserTypeToggle(event: any) {
+    this.isDoctor = event.target.checked;
+    if (this.isDoctor) {
+      this.registerForm.patchValue({ relativeNumber: null });
+    }
+  }
+ 
 
-  async register() {
-    const { name, email, password, birthdate, gender, mobile } = this.registerForm.value;
+  async onRegister() {
+    if (this.registerForm.invalid) {
+      this._ToastrService.error('Please fill all fields correctly.');
+      return;
+    }
 
-    if (!name || !email || !password || !birthdate || !gender || !mobile) return;
+    const { password, repassword } = this.registerForm.value;
+    if (password !== repassword) {
+      this._ToastrService.error('Passwords do not match.');
+      return;
+    }
 
-    this.isLoading = true;
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCredential.user, { displayName: name });
-
-      const uid = userCredential.user.uid;
-      await setDoc(doc(db, 'users', uid), {
-        name,
-        email,
-        uid,
-        birthdate,
-        gender,
-        mobile,
-        createdAt: new Date()
-      });
-
-      this.isLoading = false;
-      this.router.navigate(['/login']);
-    } catch (error: any) {
-      this.isLoading = false;
-      this.isErrorMsg = true;
-      this.errorMessage = error.message;
+      await registerUserInFirebase(this.registerForm.value, this.selectedFile,  this._ToastrService);
+      this.router.navigate(['/login']); // ✅ redirect بعد التسجيل
+    } catch (error) {
+      this._ToastrService.error('Registration failed. Please try again.');
     }
   }
 }

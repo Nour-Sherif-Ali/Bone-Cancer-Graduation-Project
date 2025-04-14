@@ -1,22 +1,43 @@
 
-<div class="register-box">
-  <h2>Register</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="register()">
-    <input type="text" placeholder="Name" formControlName="name" />
-    <input type="email" placeholder="Email" formControlName="email" />
-    <input type="password" placeholder="Password" formControlName="password" />
-    <input type="date" placeholder="Birthdate" formControlName="birthdate" />
-    
-    <select formControlName="gender">
-      <option value="" selected>Gender</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select>
 
-    <input type="text" placeholder="Mobile" formControlName="mobile" />
 
-    <button type="submit" isLoading>Register</button>
-  </form>
+ <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="space-y-4">
 
-  <p *ngIf="isErrorMsg" class="error">{{ errorMessage }}</p>
-</div>
+  <input type="text" placeholder="Full Name" formControlName="name" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <input type="email" placeholder="Email" formControlName="email" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <input type="password" placeholder="Password" formControlName="password" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <input type="password" placeholder="Repeat Password" formControlName="repassword" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <input type="date" placeholder="Birthdate" formControlName="birthdate" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <h5 class="font-bold text-gray-900">Gender</h5>
+  <div class="flex flex-row gap-4 mb-4">
+    <label class="flex items-center space-x-2 cursor-pointer">
+      <input type="radio" value="male" formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+      <span class="font-semibold bold text-slate-950">Male</span>
+    </label>
+    <label class="flex items-center space-x-2 cursor-pointer">
+      <input type="radio" value="female" formControlName="gender" class="bg-[#16161642] text-purple-600 focus:ring-purple-600">
+      <span class="font-semibold bold text-slate-950">Female</span>
+    </label>
+  </div>
+
+  <input type="tel" placeholder="Mobile Number" formControlName="mobile" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <label class="flex items-center space-x-2 cursor-pointer">
+    <input type="checkbox" (change)="onUserTypeToggle($event)" class="rounded bg-[#44444442] border-gray-600 text-purple-600 focus:ring-purple-600">
+    <span class="text-gray-400">Are you a doctor?</span>
+  </label>
+
+  <input *ngIf="isDoctor" type="text" placeholder="Syndicate Number" formControlName="syndicateNumber" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <input *ngIf="!isDoctor" type="tel" placeholder="Relative's Number" formControlName="relativeNumber" class="w-full bg-gray-100 text-black rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-600">
+
+  <button type="submit" class="w-full bg-[#5f6ffc] text-white rounded-3xl p-3 hover:bg-purple-600 transition-colors">
+    Create account
+  </button>
+
+</form> 

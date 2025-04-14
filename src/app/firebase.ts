@@ -1,7 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc , updateDoc } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { Component , inject } from '@angular/core';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc , updateDoc, setDoc } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { ToastrService } from 'ngx-toastr';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLETnp_eSrS3Ps9bj0VpF-s49_kQNQGds",
@@ -16,7 +18,57 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
+export async function registerUserInFirebase(user: any, selectedFile: File | null, toastr: ToastrService) {
+  
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+    const uid = userCredential.user.uid;
+
+     const isDoctor = !!user.syndicateNumber;
+  
+   
+
+
+    await setDoc(doc(db, 'users', uid), {
+      name: user.name,
+      email: user.email,
+      gender: user.gender,
+      birthdate: user.birthdate,
+      mobile: user.mobile,
+      Role: isDoctor ? 'Doctor' : 'Patient',
+      syndicateNumber: isDoctor ? user.syndicateNumber : null,
+      relativeNumber: isDoctor ? null : user.relativeNumber,
+      createdAt: new Date(),
+    });
+
+    try {
+      // ...
+      toastr.success('User Registered Successfully!');
+    } catch (error) {
+      toastr.error('Error: ' + (error as Error).message);
+    }
+  } catch (error) {
+    toastr.error('Error: ' + (error as Error).message);
+  }
+}
+
+
+// دالة لتسجيل دخول المستخدم (لمساعدتك لاحقًا في الـ login)
+export async function loginUser(email: string, password: string ,  toastr: ToastrService) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    if (error instanceof Error) {
+      toastr.error(`Error: ${error.message}`);
+    } else {
+      toastr.error('An unknown error occurred.');
+    }
+    return null; // Ensure a return value in all code paths
+  }
+}
