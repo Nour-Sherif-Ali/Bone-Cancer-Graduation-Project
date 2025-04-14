@@ -42,6 +42,10 @@ export class DashboardComponent {
     return this.userData?.email || 'Not Provided';
   }
 
+  // get userProfileImage() {
+  //   return this.userData?.profileImageUrl || 'https://i.pravatar.cc/100';
+  // }
+  
   get userBirthdate() {
     return this.userData?.birthdate ? this.calculateAge(this.userData.birthdate) + ' years' : 'Not Provided';
   }

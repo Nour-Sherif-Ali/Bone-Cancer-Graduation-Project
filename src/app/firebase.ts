@@ -1,7 +1,9 @@
 import { initializeApp } from 'firebase/app';
+import { Component , inject } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc , updateDoc, setDoc } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { ToastrService } from 'ngx-toastr';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLETnp_eSrS3Ps9bj0VpF-s49_kQNQGds",
@@ -16,16 +18,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-export async function registerUserInFirebase(user: any) {
+export async function registerUserInFirebase(user: any, selectedFile: File | null, toastr: ToastrService) {
+  
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
     const uid = userCredential.user.uid;
 
-    const isDoctor = !!user.syndicateNumber; // لو فيه syndicateNumber معناها دكتور
+     const isDoctor = !!user.syndicateNumber;
+  
+   
+
 
     await setDoc(doc(db, 'users', uid), {
       name: user.name,
@@ -39,27 +46,28 @@ export async function registerUserInFirebase(user: any) {
       createdAt: new Date(),
     });
 
-    alert('User Registered Successfully!');
-  } catch (error) {
-    if (error instanceof Error) {
-      alert(`Error: ${error.message}`);
-    } else {
-      alert('An unknown error occurred.');
+    try {
+      // ...
+      toastr.success('User Registered Successfully!');
+    } catch (error) {
+      toastr.error('Error: ' + (error as Error).message);
     }
+  } catch (error) {
+    toastr.error('Error: ' + (error as Error).message);
   }
 }
 
 
 // دالة لتسجيل دخول المستخدم (لمساعدتك لاحقًا في الـ login)
-export async function loginUser(email: string, password: string) {
+export async function loginUser(email: string, password: string ,  toastr: ToastrService) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
   } catch (error) {
     if (error instanceof Error) {
-      alert(`Error: ${error.message}`);
+      toastr.error(`Error: ${error.message}`);
     } else {
-      alert('An unknown error occurred.');
+      toastr.error('An unknown error occurred.');
     }
     return null; // Ensure a return value in all code paths
   }
