@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="register-box">
   <h2>Register</h2>
   <form [formGroup]="registerForm" (ngSubmit)="register()">
@@ -19,4 +19,35 @@
   </form>
 
   <p *ngIf="isErrorMsg" class="error">{{ errorMessage }}</p>
+</div> -->
+<div class="register-container">
+  <h2>Register</h2>
+
+  <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+
+    <input type="text" placeholder="Full Name" formControlName="name" />
+    <input type="email" placeholder="Email" formControlName="email" />
+    <input type="password" placeholder="Password" formControlName="password" />
+    <input type="password" placeholder="Repeat Password" formControlName="repassword" />
+    
+    <select formControlName="gender">
+      <option value="" disabled selected>Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <input type="date" formControlName="birthdate" />
+    <input type="tel" placeholder="Mobile Number" formControlName="mobile" />
+
+    <label>
+      <input type="checkbox" (change)="onUserTypeToggle($event)" />
+      Are you a doctor?
+    </label>
+
+    <input *ngIf="isDoctor" type="text" placeholder="Syndicate Number" formControlName="syndicateNumber" />
+    <input *ngIf="!isDoctor" type="tel" placeholder="Relative's Number" formControlName="relativeNumber" />
+
+    <button type="submit">Register</button>
+
+  </form>
 </div>
