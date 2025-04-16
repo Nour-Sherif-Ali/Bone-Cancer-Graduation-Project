@@ -12,6 +12,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { TreatementSuggestionComponent } from './treatement-suggestion/treatement-suggestion.component';
 import { LogoutComponent } from './logout/logout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
 // import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
     {path:'about' , component: AboutComponent,title:'About System',canActivate:[notLoginGuard] },
     {path:'diagnosis' , component: StartDiagnosisComponent,title:'Start Diagnosis',canActivate:[notLoginGuard] },
     {path:'dashboard' , component: DashboardComponent,title:'DashBoard',canActivate:[notLoginGuard] },
+    {path:'doctordashboard' , component: DoctorDashboardComponent,title:'Doctor Dashboard',canActivate:[notLoginGuard] },
     // {path:'settings' , component: SettingsComponent,title:'setting',canActivate:[notLoginGuard] },
     {path:'diagnosisResult' , component: DiagnosisResultComponent,title:'Diagnosis Result',canActivate:[notLoginGuard] },
     {path:'treatment' , component: TreatementSuggestionComponent,title:'Treatment Suggestion',canActivate:[notLoginGuard] },

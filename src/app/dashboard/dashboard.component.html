@@ -1,32 +1,53 @@
 <div class="dashboard-container">
-    <div class="dashboard-header">
-      <h2>User Dashboard</h2>
-      <p class="greeting">Hello, {{ userData.name }} 👋</p>
-    </div>
-  
-    <div class="user-card">
+  <div class="dashboard-header">
+    <h2>User Dashboard</h2>
+    <p class="greeting">Hello, {{ userData.name }} 👋</p>
+  </div>
+
+  <div class="user-card" [ngClass]="{ 'loading': isLoading }">
+    <div class="avatar-wrapper">
       <div class="avatar">
-        <img src="https://i.pravatar.cc/100" alt="User Avatar" />
+        <img [src]="userData.profileImage || 'https://i.pravatar.cc/100'" alt="User Avatar" />
+        <span class="status-indicator" [ngClass]="{ 'online': isOnline, 'offline': !isOnline }"></span>
       </div>
-      <div class="details">
-        <div class="info">
-          <span class="label">Full Name:</span>
-          <span class="value">{{ userData.name }}</span>
-        </div>
-        <div class="info">
-          <span class="label">Email:</span>
-          <span class="value">{{ userData.email }}</span>
-        </div>
-        <div class="info">
-          <span class="label">Age:</span>
-          <span class="value">{{ userBirthdate }}</span>
-        </div>
-        <div class="info">
-          <span class="label">Phone:</span>
-          <span class="value">{{ userMobile  }}</span>
-        </div>
+    </div>
+
+    <div class="details">
+      <div class="info">
+        <span class="label">Full Name:</span>
+        <span class="value">{{ userData.name }}</span>
+      </div>
+      <div class="info">
+        <span class="label">Email:</span>
+        <span class="value">{{ userData.email }}</span>
+      </div>
+      <div class="info">
+        <span class="label">Age:</span>
+        <span class="value">{{ userBirthdate }}</span>
+      </div>
+      <div class="info">
+        <span class="label">Phone:</span>
+        <span class="value">{{ userMobile }}</span>
+      </div>
+      <div class="info">
+        <span class="label">Relative Phone:</span>
+        <span class="value">{{ userRelativePhone }}</span>
       </div>
     </div>
   </div>
-  
-  
+
+  <div class="stats-cards">
+    <div class="card">
+      <h4>Total Posts</h4>
+      <p>{{ totalPosts }}</p>
+    </div>
+    <div class="card">
+      <h4>Reports Submitted</h4>
+      <p>{{ totalReports }}</p>
+    </div>
+    <div class="card">
+      <h4>Account Created</h4>
+      <p>{{ accountCreationDate }}</p>
+    </div>
+  </div>
+</div>
