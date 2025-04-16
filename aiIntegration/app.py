@@ -1,63 +1,93 @@
-from flask import Flask , redirect, url_for, request, render_template
+from flask import Flask, request
 from werkzeug.utils import secure_filename
-from __future__ import division, print_function
+from flask_cors import CORS
 import os
-import numpy as np 
-from keras.applications.imagenet_utils import preprocess_input, decode_predictions
-from tensorflow.keras.models import load_model
-from keras.preprocessing import image
+from PIL import Image
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torchvision import transforms
 
+# موديل PyTorch
+class BoneCancerCNN(nn.Module):
+    def __init__(self):
+        super(BoneCancerCNN, self).__init__()
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3)
+        self.conv3 = nn.Conv2d(64, 128, kernel_size=3)
+        self.dropout = nn.Dropout(0.5)
+        self.flattened_size = self._get_flattened_size()
+        self.fc1 = nn.Linear(self.flattened_size, 128)
+        self.fc2 = nn.Linear(128, 1)
+
+    def _get_flattened_size(self):
+        x = torch.zeros(1, 3, 224, 224)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv3(x)))
+        return x.view(1, -1).size(1)
+
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv3(x)))
+        x = torch.flatten(x, 1)
+        x = F.relu(self.fc1(x))
+        x = self.dropout(x)
+        x = torch.sigmoid(self.fc2(x))
+        return x
+
+# Flask App Setup
 app = Flask(__name__)
-MODEL_PATH = 'model.h5'
-model = load_model(MODEL_PATH)
+CORS(app)  # علشان Angular يعرف يتواصل مع Flask
 
-def model_predict(img_path, model): 
-    img = image.load_img(img_path, target_size=(224, 224))
-    x = image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    x = preprocess_input(x)
-    y = model.predict(x)
-    return np.argmax(y)
+# تحميل الموديل المدرب (لو عندك أوزان محفوظة)
+MODEL_PATH = './bone_cancer_cnn_model_architecture.json'
+model = BoneCancerCNN()
+model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
+model.eval()
 
+# Preprocessing
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406],  # mean
+                         [0.229, 0.224, 0.225])  # std
+])
+
+# دالة التنبؤ
+def model_predict(img_path, model):
+    img = Image.open(img_path).convert('RGB')
+    img = transform(img).unsqueeze(0)  # batch size 1
+    with torch.no_grad():
+        output = model(img)
+        pred = torch.round(output)  # 0 or 1
+        return int(pred.item())
 
 @app.route('/', methods=['GET'])
 def index():
-    return "API Running"
-    # return render_template('./../../Bone-Cancer-Graduation-Project/src/app/start-diagnosis/start-diagnosis.component.html')
-
-
-# @app.route('/predict', methods=['GET','POST'])
-# def predict():
-#     if request.method == 'POST':
-#         #get the file from the post request
-#         f = request.files['file']
-#         #save the file to ./uploads
-#         basepath = os.path.dirname(__file__)
-#         file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
-#         f.save(file_path)
-
-#         #make prediction
-#         preds = model_predict(file_path, model)
-#         #process your result for human readability
-#         dic = {0: 'Benign', 1: 'Malignant'}
-#         # pred_class pred.argmax(axis=-1)
-#         perd_class = dic[preds] #imageNet Decode 
+    return "Bone Cancer Diagnosis API is Running!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if request.method == 'POST':
-        f = request.files['file']
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+    if 'file' not in request.files:
+        return {'error': 'No file provided'}, 400
 
-        # Prediction
-        preds = model_predict(file_path, model)
-        dic = {0: 'Benign', 1: 'Malignant'}
-        pred_class = dic[preds]
+    f = request.files['file']
+    basepath = os.path.dirname(__file__)
+    upload_folder = os.path.join(basepath, 'uploads')
+    os.makedirs(upload_folder, exist_ok=True)
 
-        return {'result': pred_class}
+    file_path = os.path.join(upload_folder, secure_filename(f.filename))
+    f.save(file_path)
 
+    prediction = model_predict(file_path, model)
+    result = 'Benign' if prediction == 0 else 'Malignant'
+    os.remove(file_path)
+    # حذف الصورة بعد المعالجة
 
+    return {'result': result}
 
-app = Flask(__name__)
+if __name__ == '__main__':
+    app.run(debug=True)

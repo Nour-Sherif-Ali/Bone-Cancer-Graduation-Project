@@ -1,7 +1,45 @@
-<div class="result-container">
-  <div class="result-glass-card">
-    <h2 class="result-title">Your AI Analysis</h2>
-    <p class="result-content">{{ resultText }}</p>
-    <button class="action-button" (click)="fetchNewResult()">Get New Result</button>
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 px-6 py-12">
+  <div class="bg-white/10 backdrop-blur-md rounded-3xl shadow-xl p-10 max-w-5xl w-full border border-blue-500/30 transition-all duration-300">
+
+    <div class="text-center mb-8">
+      <h2 class="text-4xl font-bold text-white tracking-wider mb-2">🧬 AI Diagnosis Result</h2>
+      <p class="text-blue-300 text-lg">Here's what the model thinks about your X-ray</p>
+    </div>
+
+    <!-- صورة X-ray والنتيجة جنب بعض -->
+    <div class="flex flex-col lg:flex-row gap-8 items-center justify-between">
+      
+      <!-- صورة الأشعة -->
+      <div class="w-full max-w-sm">
+        <img [src]="uploadedImageUrl" alt="Uploaded X-ray" class="rounded-xl shadow-lg w-full border border-blue-400/30" />
+      </div>
+
+      <!-- نتيجة التشخيص -->
+      <div 
+        class="flex items-center justify-center gap-4 py-6 px-4 rounded-xl shadow-inner animate-fade-in-down w-full"
+        [ngClass]="{
+          'bg-green-900/40 border-green-500': resultText.includes('Benign'),
+          'bg-red-900/40 border-red-500': resultText.includes('Malignant')
+        }"
+      >
+        <div class="text-5xl">
+          {{ resultText.includes('Benign') ? '✅' : '⚠️' }}
+        </div>
+        <div class="text-white text-2xl font-semibold">
+          {{ resultText }}
+        </div>
+      </div>
+    </div>
+
+    <!-- زر إعادة التشخيص -->
+    <div class="text-center mt-10">
+      <button 
+        class="mt-4 px-6 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 transition-all duration-300 shadow-md"
+        (click)="fetchNewResult()"
+      >
+        🔁 Diagnose Another Image
+      </button>
+    </div>
+
   </div>
 </div>

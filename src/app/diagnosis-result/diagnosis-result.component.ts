@@ -1,23 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-diagnosis-result',
+  standalone: true,
   imports: [CommonModule],
-templateUrl: './diagnosis-result.component.html',
+  templateUrl: './diagnosis-result.component.html',
   styleUrl: './diagnosis-result.component.scss'
 })
 export class DiagnosisResultComponent {
+  @Input() resultText: string = "Analyzing image...";
+  @Input() uploadedImageUrl: string = '';
   
-    resultText = "Analyzing data... Prediction complete: High confidence level detected in the submitted input.";
-  
-    fetchNewResult() {
-      this.resultText = "Fetching new analysis..."; 
-      // simulate API call or actual logic
-      setTimeout(() => {
-        this.resultText = "New analysis: Input classified as Category X with 93% confidence.";
-      }, 1500);
-    }
-  }
-  
+  constructor(private router: Router) {
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras?.state as { result: string; image: string };
 
+    this.resultText = state?.result ?? 'Unknown';
+    this.uploadedImageUrl = state?.image ?? '';
+  }
+
+  fetchNewResult() {
+    this.router.navigate(['./diagnosis']);
+  }
+}
