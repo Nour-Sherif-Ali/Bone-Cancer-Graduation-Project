@@ -10,7 +10,8 @@ import {
 import {
   getFirestore,
   doc,
-  setDoc
+  setDoc,
+  updateDoc
 } from 'firebase/firestore';
 
 import {
@@ -71,6 +72,19 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
     toastr.success('User Registered Successfully!');
   } catch (error) {
     toastr.error('Error: ' + (error as Error).message);
+  }
+}
+
+export async function updateUserData(uid: string, updatedData: any, toastr: ToastrService) {
+  try {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, {
+      ...updatedData,
+      updatedAt: new Date() // إضافة تاريخ التحديث
+    });
+    toastr.success('User info updated successfully!');
+  } catch (error) {
+    toastr.error('Error updating user: ' + (error as Error).message);
   }
 }
 

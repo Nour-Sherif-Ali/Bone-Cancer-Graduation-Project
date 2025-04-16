@@ -47,7 +47,8 @@ export class ProfileComponent {
         lastName: updatedData.lastName,
         name: `${updatedData.firstName} ${updatedData.lastName}`,
         email: updatedData.email,
-        mobile: updatedData.mobile
+        mobile: updatedData.mobile,
+        updatedAt: new Date() 
       });
       alert('Profile updated successfully!');
     } catch (error) {
