@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   isOnline = false;
   isLoading = true;
 
-  totalPosts = 0;
+
   totalReports = 0;
   accountCreationDate = 'N/A';
 
@@ -27,9 +27,11 @@ export class DashboardComponent implements OnInit {
         this.userData = data;
 
         // Set dummy data or fetch from real APIs if available
-        this.totalPosts = 18; // Example
+        
         this.totalReports = 3;
-        this.accountCreationDate = this.formatDate(data.createdAt || '2023-06-01');
+        this.accountCreationDate = this.formatDate(
+          data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt)
+        );
 
         // Simulate user is online
         this.isOnline = true;
@@ -54,14 +56,15 @@ export class DashboardComponent implements OnInit {
     return age;
   }
 
-  private formatDate(dateStr: string): string {
-    const date = new Date(dateStr);
+  private formatDate(dateInput: string | Date): string {
+    const date = new Date(dateInput);
     return date.toLocaleDateString('en-GB', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
   }
+  
 
   // Getters
   get userName() {

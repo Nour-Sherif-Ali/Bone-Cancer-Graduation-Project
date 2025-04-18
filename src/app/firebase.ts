@@ -4,13 +4,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signOut 
 } from 'firebase/auth';
 
 import {
   getFirestore,
   doc,
-  setDoc
+  setDoc, 
+  getDoc
 } from 'firebase/firestore';
 
 import {
@@ -46,7 +48,9 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
     const uid = userCredential.user.uid;
-    const isDoctor = !!user.syndicateNumber;
+    const isDoctor = !!user.medicalCard; 
+
+    
 
     let photoURL = '';
     if (selectedFile) {
@@ -61,8 +65,8 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
       gender: user.gender,
       birthdate: user.birthdate,
       mobile: user.mobile,
-      Role: isDoctor ? 'Doctor' : 'Patient',
-      syndicateNumber: isDoctor ? user.syndicateNumber : null,
+      userType: isDoctor ? 'Doctor' : 'Patient',
+      medicalCard: isDoctor ? user.medicalCard : null,
       relativeNumber: isDoctor ? null : user.relativeNumber,
       profileImage: photoURL || null,
       createdAt: new Date(),
@@ -75,10 +79,39 @@ export async function registerUserInFirebase(user: any, selectedFile: File | nul
 }
 
 // ✅ Login with Email/Password
-export async function loginUser(email: string, password: string, toastr: ToastrService) {
+
+
+
+export async function loginUser(email: string, password: string, toastr: ToastrService, router: any) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    const uid = userCredential.user.uid;
+
+    const userDocRef = doc(db, 'users', uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      const userType = userData['userType'];
+
+      // ✨ Store in localStorage or use Angular service
+      localStorage.setItem('userType', userType);
+      localStorage.setItem('uid', uid);
+
+      // ✨ Navigate based on role
+      if (userType === 'Doctor') {
+        router.navigate(['/doctordashboard']);
+      } else {
+        router.navigate(['dashboard']);
+      }
+
+      toastr.success(`Welcome back, ${userData['name']}!`);
+      return userCredential.user;
+    } else {
+      toastr.error('User data not found.');
+      return null;
+    }
+
   } catch (error) {
     if (error instanceof Error) {
       toastr.error(`Error: ${error.message}`);
@@ -88,6 +121,26 @@ export async function loginUser(email: string, password: string, toastr: ToastrS
     return null;
   }
 }
+
+
+// ✅ Logout Function
+export async function logoutUser(router: any, toastr: ToastrService) {
+  try {
+    await signOut(auth);
+
+    // 🧹 Clear local storage
+    localStorage.removeItem('uid');
+    localStorage.removeItem('userType');
+
+    // ✅ Redirect to login page
+    router.navigate(['/login']);
+    toastr.success('Logged out successfully!');
+  } catch (error) {
+    console.error('Logout error:', error);
+    toastr.error(' Logout failed. Please try again.');
+  }
+}
+
 
 // ✅ Login/Register with Google
 export async function signUpWithGoogle(toastr: ToastrService, isDoctor: boolean, router: any) {
@@ -99,7 +152,7 @@ export async function signUpWithGoogle(toastr: ToastrService, isDoctor: boolean,
       name: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-      Role: isDoctor ? 'Doctor' : 'Patient',
+      userType: isDoctor ? 'Doctor' : 'Patient',
       createdAt: new Date()
     });
 

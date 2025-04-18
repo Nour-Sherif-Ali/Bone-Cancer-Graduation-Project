@@ -1,0 +1,21 @@
+<div class="profile-container">
+    <h2 class="color-black">👨‍⚕️ Doctor Profile</h2>
+    <div class="profile-card">
+      <img [src]="userData.profileImage || 'assets/default-avatar.png'" class="avatar" />
+      <input type="file" (change)="onFileSelected($event)" />
+  
+      <label>Full Name</label>
+      <input [(ngModel)]="userData.name" />
+  
+      <label>Email</label>
+      <input [(ngModel)]="userData.email" />
+  
+      <label>Mobile</label>
+      <input [(ngModel)]="userData.mobile" />
+  
+      <button (click)="updateDoctorData()" [disabled]="loading">
+        {{ loading ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </div>
+  </div>
+  

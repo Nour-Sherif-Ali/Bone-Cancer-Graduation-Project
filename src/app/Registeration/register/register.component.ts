@@ -28,7 +28,7 @@ export class RegisterComponent {
       gender: ['', Validators.required],
       birthdate: ['', Validators.required],
       mobile: ['', Validators.required],
-      syndicateNumber: [''],
+      medicalCard: [''],
       relativeNumber: ['']
     });
   }
@@ -38,9 +38,10 @@ export class RegisterComponent {
     if (this.isDoctor) {
       this.registerForm.patchValue({ relativeNumber: null });
     } else {
-      this.registerForm.patchValue({ syndicateNumber: null });
+      this.registerForm.patchValue({ medicalCard: null }); 
     }
   }
+
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];

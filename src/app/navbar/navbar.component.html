@@ -1,69 +1,54 @@
-  <nav class="w-full bg-gray-600 shadow-md p-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold text-blue-600">Bone Cancer Diagnostic system</h1>
-      
-        <ul class="flex space-x-6 mr-4 ml-4">
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/home" [routerLinkActive]="['bg-main', 'p-3', 'active']">home</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/about" [routerLinkActive]="['bg-main', 'p-3', 'active']">about</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/news" [routerLinkActive]="['bg-main', 'p-3', 'active']">Health Care</a>
-            </li> 
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosis" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Diagnosis</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosisResult" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Result</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/profile" [routerLinkActive]="['bg-main', 'p-3', 'active']">Profile</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/doctordashboard" [routerLinkActive]="['bg-main', 'p-3', 'active']">Doctor Dashboard</a>
-            </li>
-            <li *ngIf="isLoggedIn">
-                <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3', 'active']"> Dashboard</a>
-            </li>
-            
-        </ul>
-      
+<nav class="w-full bg-gray-600 shadow-md p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold text-blue-600">Bone Cancer Diagnostic System</h1>
 
-        <ul class="capitalize ms-auto font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-600 md:dark:bg-gray-600 dark:border-gray-700">
-          @if(enableNavBar ==false){
-            <li>
-                <a class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/register" [routerLinkActive]="['bg-main', 'p-3']">register</a>
-            </li>
-            <li>
-                <a class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/login" [routerLinkActive]="['bg-main', 'p-3']">login</a>
-            </li>
-          }
-           
+    <ul class="flex space-x-6 mr-4 ml-4">
+      <li *ngIf="isLoggedIn && userData?.userType === 'Patient'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/home" [routerLinkActive]="['bg-main', 'p-3', 'active']">Home</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Doctor'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/doctorhome" [routerLinkActive]="['bg-main', 'p-3', 'active']">Doctor Home</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Patient'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/about" [routerLinkActive]="['bg-main', 'p-3', 'active']">About</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Patient'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/news" [routerLinkActive]="['bg-main', 'p-3', 'active']">Health Care</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosis" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Diagnosis</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/diagnosisResult" [routerLinkActive]="['bg-main', 'p-3', 'active']">Start Result</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Patient'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/profile" [routerLinkActive]="['bg-main', 'p-3', 'active']">Profile</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Doctor'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/doctorprofile" [routerLinkActive]="['bg-main', 'p-3', 'active']">Profile</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Doctor'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/doctordashboard" [routerLinkActive]="['bg-main', 'p-3', 'active']">Doctor Dashboard</a>
+      </li>
+      <li *ngIf="isLoggedIn && userData?.userType === 'Patient'">
+        <a class="block py-2 px-3 text-gray-900 rounded-sm" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3', 'active']">Patient Dashboard</a>
+      </li>
+    </ul>
 
-            <li (click)="logout()" class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main', 'p-3']">logout</li>
-            <li  class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/dashboard" [routerLinkActive]="['bg-main', 'p-3']">DashBoard</li>
-            <li class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/settings" [routerLinkActive]="['bg-main', 'p-3']">settings</li>
-            <span *ngIf="userData">hello , {{userData.name}}</span>
-            
-            @if (enableNavBar ==  true) {
-              <li> 
-                <a><i class="fa-solid fa-user"></i></a>  
-                  {{userName}}
-                </li>
-              <li> 
-                <a (click)="logout()" class="block py-2 px-3  rounded-sm " aria-current="page" routerLink="/logout" [routerLinkActive]="['bg-main','p-3']" >logout</a>
-              </li>
-              
-            }
-        </ul>
+    <ul class="capitalize ms-auto font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-gray-600 md:dark:bg-gray-600 dark:border-gray-700">
+      <li *ngIf="!isLoggedIn">
+        <a class="block py-2 px-3 rounded-sm" aria-current="page" routerLink="/register" [routerLinkActive]="['bg-main', 'p-3']">Register</a>
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" routerLink="/login" [routerLinkActive]="['bg-main', 'p-3']">Login</a>
+      </li>
+      <li *ngIf="isLoggedIn" (click)="logout()" class="block py-2 px-3 rounded-sm cursor-pointer" aria-current="page" [routerLinkActive]="['bg-main', 'p-3']">Logout</li>
 
-       
-    
-    </div>
+      <!-- <span *ngIf="userData">Hello, {{ userData.name }}</span> -->
+
+      <li *ngIf="isLoggedIn">
+        <a><i class="fa-solid fa-user"></i></a>Hello, {{ userName }}
+      </li>
+    </ul>
+  </div>
 </nav>
-
-
-
-

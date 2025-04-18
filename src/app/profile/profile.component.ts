@@ -6,7 +6,6 @@ import { UserService } from '../user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-profile',
   imports: [ReactiveFormsModule],
@@ -51,12 +50,13 @@ export class ProfileComponent {
         name: `${updatedData.firstName} ${updatedData.lastName}`,
         email: updatedData.email,
         mobile: updatedData.mobile,
-        relativeNumber: updatedData.relativeNumber 
+        relativeNumber: updatedData.relativeNumber,
+        updatedAt: new Date()  // ✅ إضافة تاريخ التعديل هنا
       });
       this._ToastrService.success('Profile updated successfully!');
     } catch (error) {
       console.error('Error updating profile:', error);
+      this._ToastrService.error('Failed to update profile.');
     }
   }
-
 }
